@@ -7,6 +7,21 @@
 
 #include <stdio.h>
 
+typedef struct {
+char nome[50];
+char peso [10];
+char idade [10];
+} registro1;
+
+typedef struct {
+char numeroregistro[10];
+} busca;
+
+typedef struct {
+	
+char numeroregistro[10];
+} busca;
+
 int main (){
 	
 	int opcao;
@@ -21,4 +36,9 @@ int main (){
 		case 3:
 	}
 		case 4:
+			printf: ("Este programa foi desenvolvido pelos alunos:.");
+			printf: ("Alana Azevedo.");
+			printf: ("Ezequiel Drews.");
+			printf: ("Juliana Xavier.");
+			
 	}	
