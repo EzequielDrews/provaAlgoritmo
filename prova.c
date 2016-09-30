@@ -29,9 +29,20 @@ int main (){
 	switch (opcao){
 		
 		case 1: 
-		
+		system("cls");
+		printf ("Entre com o nome:");
+		scanf ("%s", &Registro01.nome);
+		printf ("Entre com o peso:");
+		scanf ("%s", &Registro01.peso);
+		printf ("Entre com a idade:");
+		scanf ("%s", &Registro01.idade);
+		break;
 	}
 		case 2:	
+		system("cls");
+		printf ("Entre com o nome:");
+		scanf ("%s", &Registro01.nome);
+		break;
 	}
 		case 3:
 	}
