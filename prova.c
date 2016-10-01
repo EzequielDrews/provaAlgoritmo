@@ -2,77 +2,41 @@
 #include <stdlib.h>
 
 //Estrutura que sera usada para realizar cadastro
-struct tipo_cadastro
+struct cadastro
 {
-
-       int cod;
-       char cantor[60];
-       char nomecd[60];
-       int qtcd;
-       int anofab;
-       float precovenda;
-       float precocusto;
-       char produtora[60];
-       int vazio;
+	int cod;
+    char nome[30];
+  	int idade;
+    int peso;
+    int vazio;
 
 } registros[100];
+//registros *codaux;
 
-//Funçoes que serao usadas
-void cadastrar(int cod, int pos);
-
-//Funçao para consulta
-void consultar( void );
-
-//Funçao para exibir relatorio
-int relatorio( void );
-
-//Função para verificar posição
-int verifica_pos( void );
-
-//Função para verificar codigo
-int verifica_cod( int cod );
-
-//Função para verificar posição do codigo
-int verifica_pos( void );
-
-//Função para excluir cadastro
-void excluir( void );
+int vetor;
 
 //Começo do programa principal
 int main( void )
 {
-    int op = 0, posicao, codaux, retorno;
-
-    while ( op != 5 )
+    int  opcao = 0, posicao, codaux, retorno, num = 100;
+	
+	vetor = funcaoVetorInteiros(num);		
+	
+    while ( opcao != 5 )
     {
-        printf("\n\n\t\t\t\t** Loja de CD's TopMusic**\n\n\n");
-        printf("MENU\n\n1 - Cadastrar\n2 - Pesquisar\n3 - Excluir\n4 - Relatorio\n5 - Sair\n\nOpcao: ");
-        scanf("%d",&op);
+        printf("MENU\n\n1 - Criar novo registro\n2 - Buscar Registro\n3 - Apagar Registro\n4- Creditos \n5 - Sair do programa\n\nOpcao: ");
+        scanf("%d",&opcao);
+        
         system("cls");
-        switch ( op )
+        switch ( opcao )
         {
             case 1: // CADASTRAR
             {
+				posicao=verifica_pos();				
+							
+                cadastrar(posicao, vetor);                 
 
-                posicao=verifica_pos();
-
-                if ( posicao != -1 )
-                {
-
-                    printf("\nEntre com o codigo de cadastro do CD (Somente numeros): \n");
-                    scanf("%d",&codaux);fflush(stdin);
-
-                    retorno = verifica_cod( codaux );
-
-                    if ( retorno == 1 )
-                        cadastrar( codaux, posicao );
-                    else
-                        printf("\nCodigo ja existente\n");
-
-                }
-                else
-                    printf("\nNao e possivel realizar mais cadastros!\n");
-
+                
                 break;
 
             }
@@ -81,20 +45,22 @@ int main( void )
                 consultar();
                 break;
             }
-            case 3:
+            case 3: //EXCLUIR
             {
                 excluir();
                 break;
             }
-            case 4:
+            case 4: //CREDITOS
             {
                 system("cls");
-                printf("Opcao indisponivel");
+                printf("Programa desenvolvido pelos alunos:");
+                printf("\nAlana Azevedo \nJuliana Xavier \nEzequiel Drews");
+                
                 break;
-            } // FALTOU
-            case 5:
+        	}
+            case 5: //SAIR
             {
-                 printf("\n Programa de cadastro Loja de CD by Grupo 6 - Tchau");
+                 printf("\n Saindo!! Aperte qualquer tecla");
                  getchar();
                  break;
             }
@@ -103,7 +69,6 @@ int main( void )
                 break;
         }
     }
-    // } SOBROU
 
     getchar();
 
@@ -111,47 +76,34 @@ int main( void )
 
 }//Final da Main
 
-// FUNÇAO CADASTRAR
-void cadastrar( int cod, int pos )
+int *funcaoVetorInteiros(int num)
 {
-    pos = verifica_pos();
+	int *p;
+	p = (int*)malloc(sizeof(int)*num);
+	
+	return p;
+}
 
-    registros[pos].cod = cod;
 
-    printf("\nProdutora:\n");
-    gets(registros[pos].produtora);
+// FUNÇAO CADASTRAR
+void cadastrar( int cod, int *p )
+{
+	
+//   	registros[*p].cod = cod;
 
-    printf("\nNome do CD:\n");
-    gets(registros[pos].nomecd);
+	printf("Registro: %d", *p);
 
-    printf("\nNome do cantor[a] ou banda:\n");
-    gets(registros[pos].cantor);
+    printf("\nEntre com o Nome:\n");
+    gets(registros[*p].nome);
 
-    printf("\nAno de Fabricacao:\n");
-    while ( ( registros[pos].anofab  < 1910 ) || ( registros[pos].anofab > 2020 ) )
-    {
-        scanf("%d",&registros[pos].anofab);
-        if ( ( registros[pos].anofab < 1910 ) || ( registros[pos].anofab > 2020 ) )
-            printf("Ano invalido, digite ano entre 1910 e 2020:");
-    }
+    printf("Entre com o peso:\n");
+    gets(registros[*p].peso);
 
-    printf("\nPreco de custo:\n");
-    while ( registros[pos].precocusto <= 0 )
-    {
-               scanf("%f", &registros[pos].precocusto );
-               if ( registros[pos].precocusto <= 0 )
-                printf("Valor invalido, digite um valor acima de 0:");
-    }
-
-    registros[pos].precovenda=registros[pos].precocusto+(registros[pos].precocusto/2);
-
-    printf("\nInforme quantidade de CD's comprados:");
-    scanf("%d", &registros[pos].qtcd );
-    registros[pos].vazio = 1;
-
-    printf("\nCadastro Realizado com Sucesso!\n\n");
-    getchar();
-
+    printf("Entre com a idade:");
+    gets(registros[*p].idade);        
+  	
+  	p++;
+  	
     system("cls");
 
 } //Final da Função Cadastrar
@@ -169,17 +121,14 @@ void consultar( void )
     while ( cont <= 100 )
     {
 
-        if (registros[cont].cod==cod)
-        {
-            if (registros[cont].vazio==1)
-            {
+//        if (registros[cont].cod==cod)
+//        {
+//            if (registros[cont].vazio==1)
+//            {
 
-                printf("\nProdutora: \n%s\n",registros[cont].produtora);
-                printf("\nNome do cantor[a] ou banda: \n%s\n",registros[cont].cantor);
-                printf("\nNome do CD: \n%s\n",registros[cont].nomecd);
-                printf("\nAno de fabricacao: \n%d\n",registros[cont].anofab);
-                printf("\nPreco de venda: \nR$%.2f\n",registros[cont].precovenda);
-                printf("\nQuantidade de CD's em estoque:\n%d\n",registros[cont].qtcd);
+                printf("\nNome: \n%s\n",registros[cont].nome);
+                printf("\nPeso: \n%s\n",registros[cont].peso);
+                printf("\nIdade: \n%s\n",registros[cont].idade);
                 printf("\n");
 
                 system ("pause");
@@ -187,9 +136,9 @@ void consultar( void )
                 system("cls");
 
                 break;
-
-            }
-        }
+//
+//            }
+//        }
 
         cont++;
 
@@ -199,7 +148,7 @@ void consultar( void )
     }
 }
 
-//FUNÇÃO VERIFICA POSIÇÃO
+////FUNÇÃO VERIFICA POSIÇÃO
 int verifica_pos( void )
 {
     int cont = 0;
@@ -215,34 +164,8 @@ int verifica_pos( void )
     }
 
     return(-1);
-
 }
 
-//FUNÇÃO ZERAR
-void zerar( void )
-{
-    int cont;
-
-    for ( cont = 0; cont <= 100; cont++ )
-        registros[cont].vazio = 0;
-}
-
-//FUNÇÃO VERIFICA CODIGO
-int verifica_cod( int cod )
-{
-    int cont = 0;
-
-    while ( cont <= 100 )
-    {
-        if ( registros[cont].cod == cod )
-            return(0);
-
-        cont++;
-    }
-
-    return(1);
-
-}
 
 //FUNÇÃO EXCLUIR
 void excluir( void )
@@ -256,41 +179,38 @@ void excluir( void )
     while ( cont <= 100 )
     {
 
-        if ( registros[cont].cod == cod )
-        { // FALTOU
+//        if ( registros[cont].cod == cod )
+//        { // FALTOU
+//
+//            if ( registros[cont].vazio == 1 )
+//            {
 
-            if ( registros[cont].vazio == 1 )
-            {
-
-                printf("\nProdutora: \n%s\n", registros[cont].produtora );
-                printf("\nNome do cantor[a] ou banda: \n%s\n", registros[cont].cantor );
-                printf("\nNome do CD: \n%s\n", registros[cont].nomecd );
-                printf("\nAno de fabricacao: \n%d\n", registros[cont].anofab );
-                printf("\nPreco de venda: \nR$%.2f\n", registros[cont].precovenda );
-                printf("\nQuantidade de CD's em estoque:\n%d\n", registros[cont].qtcd );
+                printf("\nNome: \n%s\n", registros[cont].nome );
+                printf("\nPeso: \n%s\n", registros[cont].peso );
+                printf("\nIdade: \n%s\n", registros[cont].idade );
                 getchar();
-
-                printf("\nDeseja realmente exlucir? S/N:");
-                scanf("%c",&resp);
-
-                if ( ( resp == 'S' ) || ( resp == 's' ) )
-                {
-                    registros[cont].vazio=0;
-                    printf("\nExclusao feita com sucesso\n");
-                    break;
-                }
-                else
-                {
-                    if ( ( resp == 'N' ) || ( resp == 'n' ) )
-                    {
-                        printf("Exclusao cancelada!\n");
-                        break;
-                    }
-                }
-
-            }
-
-        }
+//
+//                printf("\nDeseja realmente exlucir? S/N:");
+//                scanf("%c",&resp);
+//
+//                if ( ( resp == 'S' ) || ( resp == 's' ) )
+//                {
+//                    registros[cont].vazio=0;
+//                    printf("\nExclusao feita com sucesso\n");
+//                    break;
+//                }
+//                else
+//                {
+//                    if ( ( resp == 'N' ) || ( resp == 'n' ) )
+//                    {
+//                        printf("Exclusao cancelada!\n");
+//                        break;
+//                    }
+//                }
+//
+//            }
+//
+//        }
 
         cont++;
 
