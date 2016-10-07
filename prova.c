@@ -33,7 +33,8 @@ void main()
 		
 
 		printf("########### MENU PRINCIPAL ############\n\n");
-		printf("Entre com um comando:\n\n");
+		printf("Numero de Registros: %d\n\n", cod - 1);
+		printf("Entre com um comando:\n\n");	
 
 		printf("1 - Criar um novo registro\n2 - Busca de registros\n3 - Apagar um registro\n4 - Creditos\n5 - Sair do programa\n\nEscolha: ");
 		scanf("%d",&opcao);
